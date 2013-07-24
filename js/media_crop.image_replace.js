@@ -19,10 +19,14 @@
 
         if (img.length === 0) {
           $('iframe').each(function () {
-            var iimg = $(this).contents().find('#' + id);
-            if (iimg.length > 0) {
-              img = iimg;
+            // There can be iframes from other domains on the page.
+            try {
+              var iimg = $(this).contents().find('#' + id);
+              if (iimg.length > 0) {
+                img = iimg;
+              }
             }
+            catch (e) {}
           });
         }
 
