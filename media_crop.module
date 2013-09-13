@@ -82,6 +82,7 @@ function media_crop_theme() {
       'variables' => array(
         'file' => NULL,
         'attributes' => array(),
+        'view_mode' => 'default',
       ),
     ),
   );
@@ -1205,6 +1206,7 @@ function media_crop_media_token_to_markup_alter(&$element, $tag_info, $settings)
     '#theme' => 'media_crop_image',
     '#file' => $file,
     '#attributes' => $attributes,
+    '#view_mode' => $tag_info['view_mode'],
   );
 
 }
@@ -1226,7 +1228,7 @@ function media_crop_instance_load($mciid) {
 function theme_media_crop_image($variables) {
 
   $file = $variables['file'];
-  file_build_content($file, 'full');
+  file_build_content($file, $variables['view_mode']);
   unset($file->content['links']);
 
   if (!isset($file->content['#prefix'])) {
