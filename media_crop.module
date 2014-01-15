@@ -1239,13 +1239,20 @@ function theme_media_crop_image($variables) {
       $file->content['#prefix'] .= $k . "=\"" . $value . "\" ";
     }
 
-    $file->content['#prefix'] .= ">";
+    // Enforcing image width is replicated to its wrapper.
+    if (stristr($file->content['#prefix'], 'style=')) {
+      $this_prefix = str_ireplace('style="', 'style="width:'. $variables['attributes']['width'] .'px;', $file->content['#prefix']);
+    }
+    else {
+      $this_prefix = $file->content['#prefix'] .' style="width:'. $variables['attributes']['width'] .'px;"';
+    }
+
+    $file->content['#prefix'] = $this_prefix .'>';
     $file->content['#suffix'] = "</div>";
   }
 
   $content = drupal_render($file->content);
   return $content;
-
 }
 
 
